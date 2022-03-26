@@ -1,0 +1,9 @@
+{
+    "taskDeleted": "Task was deleted",
+    "taskNotDeleted": "Task was not deleted",
+    "taskUpdated": "Task was updated",
+    "taskNotUpdated": "Task was not updated",
+    "idNotExist": "id does not exist",
+    "AppRun": "App is running on port",
+    "databaseConnected": "Database was connected "
+}

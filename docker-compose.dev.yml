@@ -1,0 +1,41 @@
+version: '3.4'
+
+services:
+  database:
+    image: mongo:4.4.4
+    container_name: database
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DATABASE_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DATABASE_PASSWORD}
+      - MONGO_INITDB_DATABASE=${DATABASE_NAME}
+    volumes:
+      - ./src/scripts/createTasks.js:/docker-entrypoint-initdb.d/1.js
+    env_file:
+      - .env
+    ports:
+      - '27018:27017'
+    networks:
+      - backend
+  api:
+    build:
+      dockerfile: ${DOCKERFILE}
+      context: .
+    container_name: graphql-api
+    volumes:
+      - ./node_modules
+      - ./:/src
+    env_file:
+      - .env
+    depends_on:
+      - database
+    links:
+      - database:database
+    ports:
+      - '3000:3000'
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
